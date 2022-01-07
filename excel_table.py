@@ -25,7 +25,7 @@ class ExcelTable:
 
         return column
 
-    def _get_data(self, item, column_name:str, column_props:Union[None, dict, str, tuple], separator):
+    def _get_data(self, item, column_name:str, column_props:Union[None, dict, str, tuple], separator, raise_attribute_errors):
 
         '''
         Set the default value to `column_name`:
@@ -173,15 +173,15 @@ class ExcelTable:
                     if callable(nested_data):
                         nested_data = nested_data()
 
-                except KeyError as e:
-                    return None
-
-                except AttributeError as e:
-                    return None
+                except (KeyError, AttributeError) as e:
+                    if raise_attribute_errors:
+                        return f'{type(e)}: {str(e)}'
+                    else:
+                        return None
 
                 except Exception as e:
                     '''
-                    If an exception other than is encountered, the error message
+                    If an exception other than (KeyError, AttributeError) is encountered, the error message
                     is returned and displayed in the cell to aid in troubleshooting.
                     '''
                     
@@ -199,7 +199,7 @@ class ExcelTable:
                 - column_props={column_props}
         ''')
 
-    def __init__(self, columns:dict, data:list, separator='.'):
+    def __init__(self, columns:dict, data:list, separator='.', include_total_row=True, raise_attribute_errors=False):
         columns_dict = {
             name: self._get_column(name, props)
             for name, props
@@ -221,7 +221,7 @@ class ExcelTable:
 
         self.data:list = [
             [
-                self._get_data(item, column_name, column_props, separator) 
+                self._get_data(item, column_name, column_props, separator, raise_attribute_errors) 
                 for column_name, column_props 
                 in columns.items()
             ] 
@@ -231,7 +231,9 @@ class ExcelTable:
         
         self.top_left = (0,0)
         self.bottom_right = (
-            len(self.data) - 1 + 2,
+            len(self.data) - 1 + 1 + (1 if include_total_row else 0),
             len(self.columns) - 1
         )
         self.coordinates = (*self.top_left, *self.bottom_right)
+        
+        self.include_total_row = include_total_row
