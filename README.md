@@ -137,6 +137,18 @@ columns=dict(
     ...
 ```
 
+## Specifying `column=None`
+
+In the simplest cases where the column key is also the top-level attribute that is desired, and the column key is the desired column header, set the column's value to `None`.
+
+For example, these column definitions will generate the header, 'Bravo', and access data on each item using `item.bravo` (class) or `item['bravo']` (dict):
+
+``` py
+bravo=None,
+bravo={},
+bravo=(),
+```
+
 ## Attribute and Key Errors
 If attributes or keys cannot be found, they fail gracefully - meaning they return the value `None`, and cell values for those fields are blank.
 
@@ -147,7 +159,7 @@ Any other error is printed to the cell in which it occurred, to help diagnose.
 The `header` attribute defaults to the title-cased dictionary key, unless a header is explicitly provided. For example:
 
 ``` py
-THIS COLUMN                                 BECOMES THIS VALUE
+THIS COLUMN                                 BECOMES THIS HEADER
 -------------------------------------------------------------------
 oscar=...,                              --> 'Oscar'
 state_name=...,                         --> 'State Name'
