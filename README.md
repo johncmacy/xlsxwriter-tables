@@ -1,5 +1,5 @@
 # xlsxwriter-tables
-Easily export nested data to a 2-dimensional Excel table
+Easily export nested data to Excel
 
 This class is intended to be used with [XlsxWriter](https://xlsxwriter.readthedocs.io/working_with_tables.html). It serves several purposes:
 
@@ -127,19 +127,19 @@ One advantage to this approach is that everything pertaining to a single column 
 
 With this style, columns are defined with the logic used to generate the data in each row _for that column_. If columns need to be reordered, headers renamed, or additional info updated, there is only one place that these changes need to be made.
 
-### Easily _Flatten_ Nested Data Into Row
+### Easily Flatten Nested Data Into Row
 
 The next advantage is that it provides a concise, readable style for accessing nested data by chaining properties together (dot-syntax is the default, but custom separators can be specified). This makes it much easier to spot inconsistencies across multiple columns, and identify why a cell is showing up blank or generating an AttributeError.
 
 ### Unbreakable Formula References
 
-With XlsxWriter, column formulas can be defined with references to other columns in the table (`formula='=SUM([@Qty] * [@Price]`). Hard-coding column headers is a bad idea, however, as this is subject to break if the referenced column header changes. In this case, it can be difficult to notice that a formula broke, especially in large Excel tables.
+With XlsxWriter, column formulas can be defined with references to other columns in the table (`formula='=SUM([@Qty] * [@Price]'`). Hard-coding column headers is a bad idea, however, as this is subject to break if the referenced column header changes. In this case, it can be difficult to notice that a formula broke, especially in large Excel tables.
 
-`xlsxwriter-tables` solves this by using the columns' keys to generate dynamic references to each column in column formulas. This approach will fail at runtime if the keys change, alerting you that a change needs to be made.
+This package solves this by using the columns' keys to generate dynamic references to each column in column formulas. This approach will fail at runtime if the keys change, alerting you that a change needs to be made.
 
 ## Nesting Classes and Dicts
 
-The class is flexible enough to handle both class instances and dicts. Classes can be nested inside of dicts (`romeo` is an instance of `State` in the example). Likewise, dicts can be properties of class instances (`symbols`, a `dict`, is a property of each `State` instance). The same syntax is used to access nested values of both classes and dicts.
+This package is flexible enough to handle both class instances and dicts. Classes can be nested inside of dicts (`romeo` is an instance of `State` in the example). Likewise, dicts can be properties of class instances (`symbols`, a `dict`, is a property of each `State` instance). The same syntax is used to access nested values of both classes and dicts.
 
 ## Field Separator Syntax
 
