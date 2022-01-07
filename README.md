@@ -149,9 +149,30 @@ bravo={},
 bravo=(),
 ```
 
-## Attribute and Key Errors
-If attributes or keys cannot be found, they fail gracefully - meaning they return the value `None`, and cell values for those fields are blank.
+## AttributeErrors and KeyErrors
+By default, if attributes or keys cannot be found, they fail gracefully - meaning they return the value `None`, and cell values for those fields are blank. This is useful for cases where the shape of each item _is not expected_ to conform perfectly to the column schema.
 
+For debugging purposes, or in other cases where the data _is expected_ to be uniform, you can set `raise_attribute_errors=True`:
+
+``` py
+excel_table = ExcelTable(
+    ...
+    raise_attribute_errors=True,
+    
+    columns=dict(
+        alpha_quebec='alpha.quebec',
+        ...
+    )
+)
+```
+
+This will result in:
+
+![image](https://user-images.githubusercontent.com/36553266/148541356-d94f8a70-d972-46db-bea5-296539b791bb.png)
+
+
+
+## Other Exceptions
 Any other error is printed to the cell in which it occurred, to help diagnose.
 
 ## Column Header Text
