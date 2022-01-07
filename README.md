@@ -122,9 +122,9 @@ excel_table = ExcelTable(
 
 The class is flexible enough to handle both class instances and dicts. Classes can be nested inside of dicts (`romeo` is an instance of `State` in the example). Likewise, dicts can be properties of class instances (`symbols`, a `dict`, is a property of each `State` instance). The same syntax is used to access nested values of both classes and dicts.
 
-## Nested Fields Syntax
+## Field Separator Syntax
 
-The default separator character is the dot (`.`). Custom characters can be specified. For instance, to assimilate Django's ORM-style "dunder" syntax for querying fields, use `separator='__'`. Columns would then use this like so:
+The default field separator is the dot (`.`), but custom characters can be specified. For instance, to assimilate Django's ORM-style "dunder" syntax for querying fields, use `separator='__'`. Columns would then use this like so:
 
 ``` py
 ...
