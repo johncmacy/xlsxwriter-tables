@@ -99,7 +99,9 @@ Given the sample data above, we can generate an Excel table for export using Xls
 
 ``` py
 excel_table = ExcelTable(
+
     data=serialized_data,
+    
     columns=dict(
         oscar='alpha.oscar',
         state_name='alpha.papa.romeo.name',
@@ -183,3 +185,30 @@ average_bravo_charlie=dict(
 
 This means that changing the header text in a referenced column will _not_ break the formula! Further, changing the column's kwarg _will_ break the formula if it is not also updated. However, it will raise an error at runtime, rather than failing silently in the Excel file.
 
+## Saving to Excel
+
+To save the data to an Excel file, use XlsxWriter's `worksheet.add_table()` method as usual.
+
+The ExcelTable class automatically calculates the top, left, bottom, and right coordinates of the table based on the size of the data. These values are available in `excel_table.coordinates` as a tuple, making it easy to spread them into the `add_table()` call.
+
+``` py
+import xlsxwriter
+
+workbook = xlsxwriter.Workbook('example.xlsx')
+
+worksheet = workbook.add_worksheet()
+
+excel_table = ExcelTable(...)
+
+worksheet.add_table(
+    *excel_table.coordinates,
+    {
+        'columns': excel_table.columns,
+        'data': excel_table.data,
+        'total_row': excel_table.include_total_row,
+        ...
+    }
+)
+
+workbook.close()
+```
